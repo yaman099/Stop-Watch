@@ -2,10 +2,13 @@ let timer;
 let isRunning = false;
 let startTime;
 let elapsedTime = 0;
+let lapCounter = 1;
 
 const display = document.querySelector('h1');
 const startStopButton = document.getElementById('start-stop');
 const resetButton = document.getElementById('reset');
+const lapButton = document.getElementById('lap');
+const lapsList = document.getElementById('laps');
 
 function updateTime() {
     elapsedTime = Date.now() - startTime;
@@ -43,4 +46,16 @@ resetButton.addEventListener('click', () => {
     isRunning = false;
     display.textContent = '00:00:00';
     startStopButton.textContent = 'Start';
+    lapsList.innerHTML = '';
+    lapCounter = 1;
+});
+
+lapButton.addEventListener('click', () => {
+    if (isRunning) {
+        const lapTime = formatTime(elapsedTime);
+        const lapItem = document.createElement('li');
+        lapItem.textContent = `Lap ${lapCounter}: ${lapTime}`;
+        lapsList.appendChild(lapItem);
+        lapCounter++;
+    }
 });
